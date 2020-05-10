@@ -59,12 +59,12 @@
   </ItemGroup>
   <ItemGroup>
     <Build Include="Book.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>DoNotCopy</CopyToOutputDirectory>
     </Build>
   </ItemGroup>
   <ItemGroup>
     <None Include="DacPacDemo.publish.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>DoNotCopy</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 </Project>
