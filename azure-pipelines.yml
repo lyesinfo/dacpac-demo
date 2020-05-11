@@ -10,8 +10,7 @@ pool:
   vmImage: 'windows-latest'
 
 variables:
-  solution: '**/*.sln'
-  buildPlatform: 'Any CPU'
+  projects: 'DacPacDemo/DacPacDemo.sqlproj'
   buildConfiguration: 'Release'
 
 steps:
@@ -23,12 +22,22 @@ steps:
 
 - task: VSBuild@1
   inputs:
-    solution: '$(solution)'
-    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactStagingDirectory)"'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
-
-- task: VSTest@2
+    solution: '$(projects)'
+    vsVersion: latest
+    clean: true
+    msbuildArgs: /p:OutputPath=$(Build.BinariesDirectory) 
+- task: CopyFiles@2
   inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    SourceFolder: '$(Build.BinariesDirectory)'
+    Contents: |
+      *.dacpac
+    TargetFolder: '$(build.ArtifactStagingDirectory)'
+    OverWrite: true
+  #condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'develop'))
+    
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'Database'
+    publishLocation: 'Container'
+  #condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'develop'))
