@@ -10,7 +10,7 @@ pool:
   vmImage: 'windows-latest'
 
 variables:
-  projects: 'DacPacDemo/DacPacDemo.sqlproj'
+  projects: 'DacPacDemo/DacPacDemo/DacPacDemo.sqlproj'
   buildConfiguration: 'Release'
 
 steps:
